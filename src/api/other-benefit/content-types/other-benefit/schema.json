@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "other_benefits",
+  "info": {
+    "singularName": "other-benefit",
+    "pluralName": "other-benefits",
+    "displayName": "Other Benefits"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "card_type": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::card-type.card-type",
+      "inversedBy": "other_benefits"
+    },
+    "benIcons": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": false
+    },
+    "benTitle": {
+      "type": "string",
+      "required": false
+    },
+    "BenRewDescriptions": {
+      "type": "string"
+    },
+    "others": {
+      "type": "string"
+    }
+  }
+}

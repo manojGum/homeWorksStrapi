@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_benefits_details_benefits_details",
+  "info": {
+    "displayName": "Benefits Details",
+    "icon": "cube"
+  },
+  "options": {},
+  "attributes": {
+    "benefitsTitles": {
+      "type": "string",
+      "required": true
+    },
+    "benefitsIcons": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
+      "required": true
+    }
+  }
+}

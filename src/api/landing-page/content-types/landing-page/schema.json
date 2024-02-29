@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "landing_pages",
+  "info": {
+    "singularName": "landing-page",
+    "pluralName": "landing-pages",
+    "displayName": "Landing Pages",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "benifits": {
+      "type": "component",
+      "repeatable": true,
+      "required": true,
+      "component": "benefits-details.benefits-details"
+    },
+    "cards_collections": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cards-collection.cards-collection",
+      "mappedBy": "landing_page"
+    }
+  }
+}

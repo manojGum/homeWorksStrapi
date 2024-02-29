@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rewarding_banners",
+  "info": {
+    "singularName": "rewarding-banner",
+    "pluralName": "rewarding-banners",
+    "displayName": "Rewarding Banners",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "rewTitle": {
+      "type": "text",
+      "required": true
+    },
+    "Rewards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "rewarding-banner.rewarding-banner"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_financial_benefits_financial_benefits",
+  "info": {
+    "displayName": "Financial Benefits",
+    "icon": "database"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "descriptions": {
+      "type": "blocks",
+      "required": true
+    },
+    "BenefitsIcons": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "financial_benefits",
+  "info": {
+    "singularName": "financial-benefit",
+    "pluralName": "financial-benefits",
+    "displayName": "Financial Benefits",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "text",
+      "required": true
+    },
+    "benefitsDetails": {
+      "type": "component",
+      "repeatable": true,
+      "component": "financial-benefits.financial-benefits"
+    }
+  }
+}

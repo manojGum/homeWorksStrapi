@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "card_types",
+  "info": {
+    "singularName": "card-type",
+    "pluralName": "card-types",
+    "displayName": "Card Types",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cardName": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "other_benefits": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::other-benefit.other-benefit",
+      "mappedBy": "card_type"
+    },
+    "exclusive_offers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exclusive-offer.exclusive-offer",
+      "mappedBy": "card_type"
+    },
+    "cardBannerTitle": {
+      "type": "string",
+      "required": true
+    },
+    "cardBannDiscription": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

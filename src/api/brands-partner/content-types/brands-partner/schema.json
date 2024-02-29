@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "brands_partners",
+  "info": {
+    "singularName": "brands-partner",
+    "pluralName": "brands-partners",
+    "displayName": "Brands Partners",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
+      "type": "text",
+      "required": true
+    },
+    "brandImage": {
+      "type": "component",
+      "repeatable": true,
+      "component": "brands-partner.brands-partner"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_rewarding_banner_rewarding_banners",
+  "info": {
+    "displayName": "Rewarding Banner",
+    "icon": "book"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "rewardInformations": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_cards_collection_info_cards_collections",
+  "info": {
+    "displayName": "Cards Collections",
+    "icon": "crown"
+  },
+  "options": {},
+  "attributes": {
+    "joiningDetails": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
