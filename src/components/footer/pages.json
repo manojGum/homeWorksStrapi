@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_footer_pages",
+  "info": {
+    "displayName": "pages",
+    "icon": "cube"
+  },
+  "options": {},
+  "attributes": {
+    "page_title": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    }
+  }
+}

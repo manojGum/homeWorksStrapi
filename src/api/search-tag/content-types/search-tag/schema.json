@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "search_tags",
+  "info": {
+    "singularName": "search-tag",
+    "pluralName": "search-tags",
+    "displayName": "Search Tags",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card"
+    },
+    "search_questionnaire": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::search-questionnaire.search-questionnaire",
+      "inversedBy": "search_tags"
+    }
+  }
+}

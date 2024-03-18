@@ -12,8 +12,8 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
-      "type": "string",
+    "heading": {
+      "type": "text",
       "required": true
     },
     "benifits": {
@@ -22,10 +22,10 @@
       "required": true,
       "component": "benefits-details.benefits-details"
     },
-    "cards_collections": {
+    "cards_entities": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::cards-collection.cards-collection",
+      "target": "api::cards-entitie.cards-entitie",
       "mappedBy": "landing_page"
     }
   }

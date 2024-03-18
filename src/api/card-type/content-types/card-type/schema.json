@@ -12,29 +12,14 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "cardName": {
+    "card_type": {
       "type": "string",
       "required": true,
       "unique": true
     },
-    "other_benefits": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::other-benefit.other-benefit",
-      "mappedBy": "card_type"
-    },
-    "exclusive_offers": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::exclusive-offer.exclusive-offer",
-      "mappedBy": "card_type"
-    },
-    "cardBannerTitle": {
-      "type": "string",
-      "required": true
-    },
-    "cardBannDiscription": {
-      "type": "string",
+    "is_active": {
+      "type": "boolean",
+      "default": true,
       "required": true
     }
   }

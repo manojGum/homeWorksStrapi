@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_card_entities_other_discounts",
+  "info": {
+    "displayName": "Other Discount",
+    "icon": "feather",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "disc_heading": {
+      "type": "string",
+      "required": false
+    },
+    "disc_image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cta": {
+      "type": "component",
+      "repeatable": false,
+      "component": "cta.links"
+    },
+    "content": {
+      "type": "component",
+      "repeatable": true,
+      "component": "card-entities.discount",
+      "required": true
+    }
+  }
+}

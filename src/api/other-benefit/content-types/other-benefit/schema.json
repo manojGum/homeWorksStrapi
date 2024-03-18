@@ -4,26 +4,21 @@
   "info": {
     "singularName": "other-benefit",
     "pluralName": "other-benefits",
-    "displayName": "Other Benefits"
+    "displayName": "Other Benefits",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "card_type": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::card-type.card-type",
-      "inversedBy": "other_benefits"
-    },
     "benIcons": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "required": false
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "benTitle": {
       "type": "string",
@@ -34,6 +29,12 @@
     },
     "others": {
       "type": "string"
+    },
+    "cards_entity": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cards-entitie.cards-entitie",
+      "inversedBy": "other_benefits"
     }
   }
 }

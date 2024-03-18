@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_card_details_card_details",
+  "info": {
+    "displayName": "Card Details",
+    "icon": "discuss",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "joiningInfo": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "card_details",
+  "info": {
+    "singularName": "card-detail",
+    "pluralName": "card-details",
+    "displayName": "Card Details",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cardNamHeading": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "cardDetails": {
+      "type": "component",
+      "repeatable": true,
+      "component": "card-details.card-details",
+      "required": false
+    },
+    "cards_entity": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::cards-entitie.cards-entitie",
+      "inversedBy": "card_detail"
+    }
+  }
+}

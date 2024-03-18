@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "card_compare_features",
+  "info": {
+    "singularName": "card-compare-feature",
+    "pluralName": "card-compare-features",
+    "displayName": "Card Compare Features",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "benefits_charges": {
+      "type": "enumeration",
+      "enum": [
+        "card_benefits",
+        "fees_and_charges"
+      ],
+      "required": true
+    },
+    "cards": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card.card",
+      "mappedBy": "card_compare_feature"
+    },
+    "card_features": {
+      "type": "component",
+      "repeatable": true,
+      "component": "card-compare-features.card-compare-features"
+    }
+  }
+}

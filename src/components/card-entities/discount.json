@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_card_entities_discounts",
+  "info": {
+    "displayName": "discount",
+    "icon": "feather"
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

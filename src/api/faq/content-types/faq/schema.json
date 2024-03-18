@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "faqTitle": {
+    "faqs_title": {
       "type": "text",
       "required": true
     },
@@ -20,6 +20,11 @@
       "type": "component",
       "repeatable": true,
       "component": "faqs.faqs"
+    },
+    "card_types": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::card-type.card-type"
     }
   }
 }

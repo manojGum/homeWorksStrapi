@@ -585,6 +585,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -736,53 +783,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiArticleArticle extends Schema.CollectionType {
   collectionName: 'articles';
   info: {
@@ -795,10 +795,10 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    articleImages: Attribute.Media;
-    title: Attribute.String;
-    description: Attribute.Text;
-    date: Attribute.Date & Attribute.Required;
+    article_images: Attribute.Media;
+    artical_title: Attribute.String & Attribute.Required;
+    public_date: Attribute.Date;
+    artical_description: Attribute.RichText;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -860,9 +860,10 @@ export interface ApiBrandsPartnerBrandsPartner extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.String & Attribute.Required;
-    body: Attribute.Text & Attribute.Required;
-    brandImage: Attribute.Component<'brands-partner.brands-partner', true>;
+    brand_title: Attribute.String & Attribute.Required;
+    brand_message: Attribute.Text;
+    brand_logo: Attribute.Component<'brands-partner.brands-partner', true>;
+    slug: Attribute.UID<'api::brands-partner.brands-partner', 'brand_title'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -874,6 +875,203 @@ export interface ApiBrandsPartnerBrandsPartner extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::brands-partner.brands-partner',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCardCard extends Schema.CollectionType {
+  collectionName: 'cards';
+  info: {
+    singularName: 'card';
+    pluralName: 'cards';
+    displayName: 'Cards';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    features_card_image: Attribute.Media;
+    preview_card_image: Attribute.Media & Attribute.Required;
+    card_name_heading: Attribute.String & Attribute.Required & Attribute.Unique;
+    card: Attribute.Component<'card-entities.card'>;
+    card_type: Attribute.Relation<
+      'api::card.card',
+      'oneToOne',
+      'api::card-type.card-type'
+    >;
+    compare_image: Attribute.Media;
+    card_compare_feature: Attribute.Relation<
+      'api::card.card',
+      'manyToOne',
+      'api::card-compare-feature.card-compare-feature'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::card.card', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::card.card', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCardBannerCardBanner extends Schema.CollectionType {
+  collectionName: 'card_banners';
+  info: {
+    singularName: 'card-banner';
+    pluralName: 'card-banners';
+    displayName: 'Card Banners';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    top_title: Attribute.String;
+    bottom_title: Attribute.String;
+    card_type: Attribute.Relation<
+      'api::card-banner.card-banner',
+      'oneToOne',
+      'api::card-type.card-type'
+    >;
+    card_bg_image: Attribute.Media;
+    card_image: Attribute.Media & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::card-banner.card-banner',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::card-banner.card-banner',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCardCompareFeatureCardCompareFeature
+  extends Schema.CollectionType {
+  collectionName: 'card_compare_features';
+  info: {
+    singularName: 'card-compare-feature';
+    pluralName: 'card-compare-features';
+    displayName: 'Card Compare Features';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    benefits_charges: Attribute.Enumeration<
+      ['card_benefits', 'fees_and_charges']
+    > &
+      Attribute.Required;
+    cards: Attribute.Relation<
+      'api::card-compare-feature.card-compare-feature',
+      'oneToMany',
+      'api::card.card'
+    >;
+    card_features: Attribute.Component<
+      'card-compare-features.card-compare-features',
+      true
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::card-compare-feature.card-compare-feature',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::card-compare-feature.card-compare-feature',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCardDetailCardDetail extends Schema.CollectionType {
+  collectionName: 'card_details';
+  info: {
+    singularName: 'card-detail';
+    pluralName: 'card-details';
+    displayName: 'Card Details';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cardNamHeading: Attribute.String & Attribute.Required & Attribute.Unique;
+    cardDetails: Attribute.Component<'card-details.card-details', true>;
+    cards_entity: Attribute.Relation<
+      'api::card-detail.card-detail',
+      'oneToOne',
+      'api::cards-entitie.cards-entitie'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::card-detail.card-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::card-detail.card-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCardLeadCardLead extends Schema.CollectionType {
+  collectionName: 'card_leads';
+  info: {
+    singularName: 'card-lead';
+    pluralName: 'card-leads';
+    displayName: 'Card Leads';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    mobile: Attribute.String;
+    pan: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 10;
+      }>;
+    pin_code: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 6;
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::card-lead.card-lead',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::card-lead.card-lead',
       'oneToOne',
       'admin::user'
     > &
@@ -893,19 +1091,10 @@ export interface ApiCardTypeCardType extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    cardName: Attribute.String & Attribute.Required & Attribute.Unique;
-    other_benefits: Attribute.Relation<
-      'api::card-type.card-type',
-      'oneToMany',
-      'api::other-benefit.other-benefit'
-    >;
-    exclusive_offers: Attribute.Relation<
-      'api::card-type.card-type',
-      'oneToMany',
-      'api::exclusive-offer.exclusive-offer'
-    >;
-    cardBannerTitle: Attribute.String & Attribute.Required;
-    cardBannDiscription: Attribute.String & Attribute.Required;
+    card_type: Attribute.String & Attribute.Required & Attribute.Unique;
+    is_active: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -924,13 +1113,57 @@ export interface ApiCardTypeCardType extends Schema.CollectionType {
   };
 }
 
-export interface ApiCardsCollectionCardsCollection
-  extends Schema.CollectionType {
-  collectionName: 'cards_collections';
+export interface ApiCardsDetailCardsDetail extends Schema.CollectionType {
+  collectionName: 'cards_details';
   info: {
-    singularName: 'cards-collection';
-    pluralName: 'cards-collections';
-    displayName: 'Cards Collections';
+    singularName: 'cards-detail';
+    pluralName: 'cards-details';
+    displayName: 'Cards Details';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    card_details_heading: Attribute.String & Attribute.Required;
+    card_bg_image: Attribute.Media;
+    remarkable_heading: Attribute.String;
+    remarkable_features: Attribute.Component<
+      'remarkable-features.remarkable-features',
+      true
+    >;
+    card_type: Attribute.Relation<
+      'api::cards-detail.cards-detail',
+      'oneToOne',
+      'api::card-type.card-type'
+    >;
+    other_feature: Attribute.Component<'card-entities.other-discount', true>;
+    card_image: Attribute.Media & Attribute.Required;
+    earn_rewards: Attribute.Component<'card-entities.earn-rewards'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::cards-detail.cards-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::cards-detail.cards-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCardsEntitieCardsEntitie extends Schema.CollectionType {
+  collectionName: 'cards_entities';
+  info: {
+    singularName: 'cards-entitie';
+    pluralName: 'cards-entities';
+    displayName: 'cards Entities';
     description: '';
   };
   options: {
@@ -939,15 +1172,31 @@ export interface ApiCardsCollectionCardsCollection
   attributes: {
     cardName: Attribute.String & Attribute.Required & Attribute.Unique;
     cardImage: Attribute.Media & Attribute.Required;
-    mobileCardImage: Attribute.Media & Attribute.Required;
-    cardCategory: Attribute.String & Attribute.Required & Attribute.Unique;
-    joiningInfo: Attribute.Component<
-      'cards-collection-info.cards-collections',
+    cardMobImage: Attribute.Media & Attribute.Required;
+    cardHeading: Attribute.Text & Attribute.Required;
+    cardFees: Attribute.Component<'card-entities.card-fees', true>;
+    card_detail: Attribute.Relation<
+      'api::cards-entitie.cards-entitie',
+      'oneToOne',
+      'api::card-detail.card-detail'
+    >;
+    other_benefits: Attribute.Relation<
+      'api::cards-entitie.cards-entitie',
+      'oneToMany',
+      'api::other-benefit.other-benefit'
+    >;
+    exclusive_offers: Attribute.Relation<
+      'api::cards-entitie.cards-entitie',
+      'oneToMany',
+      'api::exclusive-offer.exclusive-offer'
+    >;
+    cardBenifits: Attribute.Component<
+      'benefits-details.benefits-details',
       true
     > &
       Attribute.Required;
     landing_page: Attribute.Relation<
-      'api::cards-collection.cards-collection',
+      'api::cards-entitie.cards-entitie',
       'manyToOne',
       'api::landing-page.landing-page'
     >;
@@ -955,13 +1204,79 @@ export interface ApiCardsCollectionCardsCollection
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::cards-collection.cards-collection',
+      'api::cards-entitie.cards-entitie',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::cards-collection.cards-collection',
+      'api::cards-entitie.cards-entitie',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCraftedCardCraftedCard extends Schema.CollectionType {
+  collectionName: 'crafted_cards';
+  info: {
+    singularName: 'crafted-card';
+    pluralName: 'crafted-cards';
+    displayName: 'Crafted Cards';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    crafted_card_heading: Attribute.String & Attribute.Required;
+    cta: Attribute.Component<'cta.links'>;
+    crafted_card_image: Attribute.Media & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::crafted-card.crafted-card',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::crafted-card.crafted-card',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCreditCardStepCreditCardStep extends Schema.CollectionType {
+  collectionName: 'credit_card_steps';
+  info: {
+    singularName: 'credit-card-step';
+    pluralName: 'credit-card-steps';
+    displayName: 'Credit Card Steps';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    steps: Attribute.Integer;
+    content: Attribute.String & Attribute.Required;
+    image: Attribute.Media & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::credit-card-step.credit-card-step',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::credit-card-step.credit-card-step',
       'oneToOne',
       'admin::user'
     > &
@@ -981,13 +1296,18 @@ export interface ApiExclusiveOfferExclusiveOffer extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    brandLogo: Attribute.Media & Attribute.Required;
-    rewards: Attribute.String & Attribute.Required;
-    description: Attribute.String;
-    isAvailable: Attribute.Boolean & Attribute.Required;
-    card_type: Attribute.Relation<
+    brand_logo: Attribute.Media;
+    offers: Attribute.String & Attribute.Required;
+    offer_content: Attribute.String;
+    is_available: Attribute.Boolean & Attribute.DefaultTo<true>;
+    image: Attribute.Media;
+    exclusive_offer_type: Attribute.Enumeration<
+      ['All', 'Dining', 'Movies', 'Travel']
+    > &
+      Attribute.Required;
+    card_types: Attribute.Relation<
       'api::exclusive-offer.exclusive-offer',
-      'manyToOne',
+      'oneToMany',
       'api::card-type.card-type'
     >;
     createdAt: Attribute.DateTime;
@@ -1020,8 +1340,13 @@ export interface ApiFaqFaq extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    faqTitle: Attribute.Text & Attribute.Required;
+    faqs_title: Attribute.Text & Attribute.Required;
     faqs: Attribute.Component<'faqs.faqs', true>;
+    card_types: Attribute.Relation<
+      'api::faq.faq',
+      'oneToMany',
+      'api::card-type.card-type'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1045,7 +1370,7 @@ export interface ApiFinancialBenefitFinancialBenefit
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.Text & Attribute.Required;
+    finHeading: Attribute.Text & Attribute.Required;
     benefitsDetails: Attribute.Component<
       'financial-benefits.financial-benefits',
       true
@@ -1068,31 +1393,94 @@ export interface ApiFinancialBenefitFinancialBenefit
   };
 }
 
-export interface ApiGetCreditStepGetCreditStep extends Schema.CollectionType {
-  collectionName: 'get_credit_steps';
+export interface ApiFooterFooter extends Schema.CollectionType {
+  collectionName: 'footers';
   info: {
-    singularName: 'get-credit-step';
-    pluralName: 'get-credit-steps';
-    displayName: 'Get Credit Steps';
+    singularName: 'footer';
+    pluralName: 'footers';
+    displayName: 'Footer';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.String & Attribute.Required;
-    content: Attribute.String & Attribute.Required;
-    image: Attribute.Media & Attribute.Required;
+    comprehensive_info: Attribute.Component<'footer.comprehensive-info', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::get-credit-step.get-credit-step',
+      'api::footer.footer',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::get-credit-step.get-credit-step',
+      'api::footer.footer',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiHeaderMenuHeaderMenu extends Schema.CollectionType {
+  collectionName: 'header_menus';
+  info: {
+    singularName: 'header-menu';
+    pluralName: 'header-menus';
+    displayName: 'Header Menu';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    menu_link_title: Attribute.String;
+    menu_image_icon: Attribute.Media;
+    link: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::header-menu.header-menu',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::header-menu.header-menu',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiLandingBenefitLandingBenefit extends Schema.CollectionType {
+  collectionName: 'landing_benefits';
+  info: {
+    singularName: 'landing-benefit';
+    pluralName: 'landing-benefits';
+    displayName: 'Landing Benefits';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    heading: Attribute.String & Attribute.Required;
+    benefits_details: Attribute.Component<'landing-benefits.benefits', true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::landing-benefit.landing-benefit',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::landing-benefit.landing-benefit',
       'oneToOne',
       'admin::user'
     > &
@@ -1112,13 +1500,13 @@ export interface ApiLandingPageLandingPage extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.String & Attribute.Required;
+    heading: Attribute.Text & Attribute.Required;
     benifits: Attribute.Component<'benefits-details.benefits-details', true> &
       Attribute.Required;
-    cards_collections: Attribute.Relation<
+    cards_entities: Attribute.Relation<
       'api::landing-page.landing-page',
       'oneToMany',
-      'api::cards-collection.cards-collection'
+      'api::cards-entitie.cards-entitie'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1144,20 +1532,21 @@ export interface ApiOtherBenefitOtherBenefit extends Schema.CollectionType {
     singularName: 'other-benefit';
     pluralName: 'other-benefits';
     displayName: 'Other Benefits';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    card_type: Attribute.Relation<
-      'api::other-benefit.other-benefit',
-      'manyToOne',
-      'api::card-type.card-type'
-    >;
     benIcons: Attribute.Media;
     benTitle: Attribute.String;
     BenRewDescriptions: Attribute.String;
     others: Attribute.String;
+    cards_entity: Attribute.Relation<
+      'api::other-benefit.other-benefit',
+      'manyToOne',
+      'api::cards-entitie.cards-entitie'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1169,6 +1558,84 @@ export interface ApiOtherBenefitOtherBenefit extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::other-benefit.other-benefit',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPackedBenefitPackedBenefit extends Schema.CollectionType {
+  collectionName: 'packed_benefits';
+  info: {
+    singularName: 'packed-benefit';
+    pluralName: 'packed-benefits';
+    displayName: 'Packed Benefits';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    card_type: Attribute.Relation<
+      'api::packed-benefit.packed-benefit',
+      'oneToOne',
+      'api::card-type.card-type'
+    >;
+    pack_benefit_title: Attribute.String;
+    benefits: Attribute.Component<'landing-benefits.benefits', true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::packed-benefit.packed-benefit',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::packed-benefit.packed-benefit',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRegistrationCardsStepRegistrationCardsStep
+  extends Schema.CollectionType {
+  collectionName: 'registration_cards_steps';
+  info: {
+    singularName: 'registration-cards-step';
+    pluralName: 'registration-cards-steps';
+    displayName: 'Registration cards steps';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    card_type: Attribute.Relation<
+      'api::registration-cards-step.registration-cards-step',
+      'oneToOne',
+      'api::card-type.card-type'
+    >;
+    heading: Attribute.String;
+    registration_steps: Attribute.Component<
+      'registration-steps.registration-steps',
+      true
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::registration-cards-step.registration-cards-step',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::registration-cards-step.registration-cards-step',
       'oneToOne',
       'admin::user'
     > &
@@ -1189,7 +1656,7 @@ export interface ApiRewardingBannerRewardingBanner
     draftAndPublish: true;
   };
   attributes: {
-    rewTitle: Attribute.Text & Attribute.Required;
+    rewHeading: Attribute.Text & Attribute.Required;
     Rewards: Attribute.Component<'rewarding-banner.rewarding-banner', true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1202,6 +1669,161 @@ export interface ApiRewardingBannerRewardingBanner
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::rewarding-banner.rewarding-banner',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiRightHeaderMenuRightHeaderMenu
+  extends Schema.CollectionType {
+  collectionName: 'right_header_menus';
+  info: {
+    singularName: 'right-header-menu';
+    pluralName: 'right-header-menus';
+    displayName: 'Right Header menu';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    menu_image_icon: Attribute.Media;
+    link_type: Attribute.Enumeration<['internal', 'external']>;
+    redirect_link: Attribute.String;
+    menu: Attribute.Component<'header-menu.menu', true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::right-header-menu.right-header-menu',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::right-header-menu.right-header-menu',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSearchQuestionnaireSearchQuestionnaire
+  extends Schema.CollectionType {
+  collectionName: 'search_questionnaires';
+  info: {
+    singularName: 'search-questionnaire';
+    pluralName: 'search-questionnaires';
+    displayName: 'Search Questionnaires';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    search_tags: Attribute.Relation<
+      'api::search-questionnaire.search-questionnaire',
+      'oneToMany',
+      'api::search-tag.search-tag'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::search-questionnaire.search-questionnaire',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::search-questionnaire.search-questionnaire',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSearchTagSearchTag extends Schema.CollectionType {
+  collectionName: 'search_tags';
+  info: {
+    singularName: 'search-tag';
+    pluralName: 'search-tags';
+    displayName: 'Search Tags';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    cards: Attribute.Relation<
+      'api::search-tag.search-tag',
+      'oneToMany',
+      'api::card.card'
+    >;
+    search_questionnaire: Attribute.Relation<
+      'api::search-tag.search-tag',
+      'manyToOne',
+      'api::search-questionnaire.search-questionnaire'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::search-tag.search-tag',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::search-tag.search-tag',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSocialInformationSocialInformation
+  extends Schema.SingleType {
+  collectionName: 'social_informations';
+  info: {
+    singularName: 'social-information';
+    pluralName: 'social-informations';
+    displayName: 'Social Information';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    socail_info: Attribute.Component<'socail-info.socail-info', true>;
+    toll_free_no: Attribute.String;
+    customer_care_no: Attribute.String;
+    Application_info: Attribute.Component<'socail-info.app-info', true> &
+      Attribute.SetMinMax<
+        {
+          max: 2;
+        },
+        number
+      >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::social-information.social-information',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::social-information.social-information',
       'oneToOne',
       'admin::user'
     > &
@@ -1223,22 +1845,38 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::article.article': ApiArticleArticle;
       'api::best-discount.best-discount': ApiBestDiscountBestDiscount;
       'api::brands-partner.brands-partner': ApiBrandsPartnerBrandsPartner;
+      'api::card.card': ApiCardCard;
+      'api::card-banner.card-banner': ApiCardBannerCardBanner;
+      'api::card-compare-feature.card-compare-feature': ApiCardCompareFeatureCardCompareFeature;
+      'api::card-detail.card-detail': ApiCardDetailCardDetail;
+      'api::card-lead.card-lead': ApiCardLeadCardLead;
       'api::card-type.card-type': ApiCardTypeCardType;
-      'api::cards-collection.cards-collection': ApiCardsCollectionCardsCollection;
+      'api::cards-detail.cards-detail': ApiCardsDetailCardsDetail;
+      'api::cards-entitie.cards-entitie': ApiCardsEntitieCardsEntitie;
+      'api::crafted-card.crafted-card': ApiCraftedCardCraftedCard;
+      'api::credit-card-step.credit-card-step': ApiCreditCardStepCreditCardStep;
       'api::exclusive-offer.exclusive-offer': ApiExclusiveOfferExclusiveOffer;
       'api::faq.faq': ApiFaqFaq;
       'api::financial-benefit.financial-benefit': ApiFinancialBenefitFinancialBenefit;
-      'api::get-credit-step.get-credit-step': ApiGetCreditStepGetCreditStep;
+      'api::footer.footer': ApiFooterFooter;
+      'api::header-menu.header-menu': ApiHeaderMenuHeaderMenu;
+      'api::landing-benefit.landing-benefit': ApiLandingBenefitLandingBenefit;
       'api::landing-page.landing-page': ApiLandingPageLandingPage;
       'api::other-benefit.other-benefit': ApiOtherBenefitOtherBenefit;
+      'api::packed-benefit.packed-benefit': ApiPackedBenefitPackedBenefit;
+      'api::registration-cards-step.registration-cards-step': ApiRegistrationCardsStepRegistrationCardsStep;
       'api::rewarding-banner.rewarding-banner': ApiRewardingBannerRewardingBanner;
+      'api::right-header-menu.right-header-menu': ApiRightHeaderMenuRightHeaderMenu;
+      'api::search-questionnaire.search-questionnaire': ApiSearchQuestionnaireSearchQuestionnaire;
+      'api::search-tag.search-tag': ApiSearchTagSearchTag;
+      'api::social-information.social-information': ApiSocialInformationSocialInformation;
     }
   }
 }

@@ -2,16 +2,25 @@
   "collectionName": "components_rewarding_banner_rewarding_banners",
   "info": {
     "displayName": "Rewarding Banner",
-    "icon": "book"
+    "icon": "book",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "title": {
+    "rewTitle": {
       "type": "string",
       "required": true
     },
-    "rewardInformations": {
-      "type": "string",
+    "rewInformation": {
+      "type": "text",
+      "required": true
+    },
+    "rewIcons": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
       "required": true
     }
   }

@@ -12,26 +12,24 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "articleImages": {
+    "article_images": {
       "type": "media",
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
+        "images"
       ]
     },
-    "title": {
-      "type": "string"
-    },
-    "description": {
-      "type": "text"
-    },
-    "date": {
-      "type": "date",
+    "artical_title": {
+      "type": "string",
       "required": true
+    },
+    "public_date": {
+      "type": "date",
+      "required": false
+    },
+    "artical_description": {
+      "type": "richtext"
     }
   }
 }

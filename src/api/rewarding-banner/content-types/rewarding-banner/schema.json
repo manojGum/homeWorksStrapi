@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "rewTitle": {
+    "rewHeading": {
       "type": "text",
       "required": true
     },

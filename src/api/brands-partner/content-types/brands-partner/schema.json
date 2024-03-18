@@ -12,18 +12,22 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
+    "brand_title": {
       "type": "string",
       "required": true
     },
-    "body": {
+    "brand_message": {
       "type": "text",
-      "required": true
+      "required": false
     },
-    "brandImage": {
+    "brand_logo": {
       "type": "component",
       "repeatable": true,
       "component": "brands-partner.brands-partner"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "brand_title"
     }
   }
 }

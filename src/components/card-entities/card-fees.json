@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_card_entities_card_fees",
+  "info": {
+    "displayName": "CardFees",
+    "icon": "folder"
+  },
+  "options": {},
+  "attributes": {
+    "cardFees": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

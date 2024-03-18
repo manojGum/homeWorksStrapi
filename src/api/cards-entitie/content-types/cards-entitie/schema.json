@@ -1,0 +1,76 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cards_entities",
+  "info": {
+    "singularName": "cards-entitie",
+    "pluralName": "cards-entities",
+    "displayName": "cards Entities",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cardName": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "cardImage": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cardMobImage": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "cardHeading": {
+      "type": "text",
+      "required": true
+    },
+    "cardFees": {
+      "type": "component",
+      "repeatable": true,
+      "component": "card-entities.card-fees"
+    },
+    "card_detail": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::card-detail.card-detail",
+      "mappedBy": "cards_entity"
+    },
+    "other_benefits": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::other-benefit.other-benefit",
+      "mappedBy": "cards_entity"
+    },
+    "exclusive_offers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exclusive-offer.exclusive-offer",
+      "mappedBy": "cards_entity"
+    },
+    "cardBenifits": {
+      "type": "component",
+      "repeatable": true,
+      "component": "benefits-details.benefits-details",
+      "required": true
+    },
+    "landing_page": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::landing-page.landing-page",
+      "inversedBy": "cards_entities"
+    }
+  }
+}
